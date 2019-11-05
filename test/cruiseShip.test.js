@@ -24,7 +24,10 @@ describe('cruiseShip', () => {
 
     test('it can set sail', () => {
         ship.setSail('barcelona');
+
         expect(ship.startingPort).toBeFalsy();
+        expect(ship.currentLocation).toBe('At Sea')
+        expect(ship.journey).toEqual(['liverpool', 'barcelona']);
     })
 
     xtest('', () => {

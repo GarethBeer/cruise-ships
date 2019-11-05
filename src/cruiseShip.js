@@ -1,31 +1,23 @@
 class cruiseShip {
 
-    constructor(startingPort, captain) {
+    constructor(startingPort) {
         this.startingPort = startingPort;
-        this.captain = captain;
-        let passengers = [];
+        this.currentLocation = startingPort;
+        this.journey = []
+
     }
 
-    setSail(location) {
-        let currentLocation = location;
-        if (currentLocation != this.startingPort) {
-            return false;
+    setSail(destination) {
+        this.journey.push(this.startingPort)
+        this.currentLocation = 'At Sea'
+        this.journey.push(destination);
+        if (this.currentLocation != this.startingPort) {
+            this.startingPort = false;
         } else {
-            return true;
+            this.startingPort = true;
         }
     }
-    /*
-    addPassenger(name, startingPort, destination) {
-        this.passengers.push({
-            name: name,
-            startingPort: startingPort, 
-            destination: destination
-        })
-    }
-*/
-    }
-    //getPassenger
-
+}
 
 
 
