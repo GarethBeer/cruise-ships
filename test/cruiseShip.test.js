@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 const CruiseShip = require("../src/cruiseShip");
-const Port = require("../src/port");
-const Itinerary = require("../src/itinerary");
 
 let portDover;
 let portLiverpool;
@@ -10,11 +8,29 @@ let itinerary;
 
 let ship;
 beforeEach(() => {
-  portDover = new Port("Dover");
-  portLiverpool = new Port("Liverpool");
-  portSouthampton = new Port("Southampton");
+  port = {
+    addShips: jest.fn(),
+    removeShips: jest.fn()
+  };
+  portDover = {
+    ...port,
+    name: "Dover",
+    ships: []
+  };
+  portLiverpool = {
+    ...port,
+    name: "liverpool",
+    ships: []
+  };
+  portSouthampton = {
+    ...port,
+    name: "Southhampton",
+    ships: []
+  };
 
-  itinerary = new Itinerary([portDover, portLiverpool, portSouthampton]);
+  itinerary = {
+    ports: [portDover, portLiverpool, portSouthampton]
+  };
 
   ship = new CruiseShip(itinerary);
 });
@@ -32,6 +48,7 @@ describe("Ship tests", () => {
     ship.setSail();
     expect(ship.currentPort).toBeFalsy();
     expect(ship.previousPort).toBe(portDover);
+    expect(portDover.removeShips).toHaveBeenCalledWith(ship);
   });
 
   test("can the dock method take a port object", () => {
@@ -53,13 +70,13 @@ describe("Ship tests", () => {
   });
 
   test("new ship should be added to the first port in the itinerary on ship instiation", () => {
-    expect(portDover.ships).toContain(ship);
+    expect(portDover.addShips).toHaveBeenCalledWith(ship);
   });
 
   test("ship should be removed from the first port when setSail method called and added to the next port when dock method called", () => {
     ship.setSail();
     ship.dock();
     expect(portDover.ships).not.toContain(ship);
-    expect(portLiverpool.ships).toContain(ship);
+    expect(portLiverpool.addShips).toHaveBeenCalledWith(ship);
   });
 });
