@@ -1,28 +1,32 @@
 class cruiseShip {
+  constructor(itinerary) {
+    this.itinerary = itinerary;
+    this.currentPort = this.itinerary.ports[0];
+    this.previousPort = null;
+    this.currentPort.addShips(this)
 
-    constructor(startingPort) {
-        this.startingPort = startingPort;
-        this.currentLocation = startingPort;
-        this.journey = []
+
+  }
+
+  setSail() {
+    const currentPortIndex = this.itinerary.ports.indexOf(this.currentPort);
+
+    if (currentPortIndex === this.itinerary.ports.length - 1) {
+      throw new Error("End of journey");
+    } else {
+      this.previousPort = this.currentPort;
+      this.currentPort.removeShips(this)
+      this.currentPort = null;
 
     }
+  }
 
-    setSail(destination) {
-        this.journey.push(this.startingPort)
-        this.currentLocation = 'At Sea'
-        this.journey.push(destination);
-        if (this.currentLocation != this.startingPort) {
-            this.startingPort = false;
-        } else {
-            this.startingPort = true;
-        }
-    }
+  dock() {
+    const previousPortIndex = this.itinerary.ports.indexOf(this.previousPort);
+    this.currentPort = this.itinerary.ports[previousPortIndex + 1];
+    this.currentPort.addShips(this);
+
+  }
 }
-
-
-
-
-
-
 
 module.exports = cruiseShip;
