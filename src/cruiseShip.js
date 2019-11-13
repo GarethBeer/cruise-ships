@@ -1,11 +1,9 @@
-class cruiseShip {
+class CruiseShip {
   constructor(itinerary) {
     this.itinerary = itinerary;
     this.currentPort = this.itinerary.ports[0];
     this.previousPort = null;
-    this.currentPort.addShips(this)
-
-
+    this.currentPort.addShips(this);
   }
 
   setSail() {
@@ -15,9 +13,8 @@ class cruiseShip {
       throw new Error("End of journey");
     } else {
       this.previousPort = this.currentPort;
-      this.currentPort.removeShips(this)
+      this.currentPort.removeShips(this);
       this.currentPort = null;
-
     }
   }
 
@@ -25,8 +22,7 @@ class cruiseShip {
     const previousPortIndex = this.itinerary.ports.indexOf(this.previousPort);
     this.currentPort = this.itinerary.ports[previousPortIndex + 1];
     this.currentPort.addShips(this);
-
   }
 }
 
-module.exports = cruiseShip;
+module.exports = CruiseShip;
